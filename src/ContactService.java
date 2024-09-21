@@ -3,13 +3,36 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
+/**
+ * The ContactService class is a singleton that stores Contact objects.
+ * It provides methods to add, retrieve, update, and delete stored contacts
+ * and is responsible for creating a Contact's unique ID property.
+ */
 public class ContactService {
-    // The single instance of the class
     private static ContactService instance;
 
+    // Private constructor to prevent instantiation
+    private ContactService() {
+        // create hashmap to track Contact objects
+        contactMap = new HashMap<>(64);
+    }
+
+    /**
+     * Public method to provide access to ContactService singleton instance
+    */
+    public static ContactService getInstance() {
+        if (instance == null) {
+//            System.out.println("Creating Instance of ContactService...");
+            instance = new ContactService();
+        }
+        return instance;
+    }
+
+    // using Map<String, Contact> to store Contacts with Contact.Id as key.
+    // Map interface is implemented by a HashMap.
     private final Map<String, Contact> contactMap;
 
-    // constant variable defining max Contact.Id string length
+    // constant defining max Contact.Id string length
     private final int MAX_ID_LEN = 10;
 
     // not specified in rubric, but I figure the minimum length of an Id should be > 1 at least
@@ -21,21 +44,10 @@ public class ContactService {
     // string containing the characters I'm allowing to be present within an Id.
     private final String ALLOWED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    // Private constructor to prevent instantiation
-    private ContactService() {
-        // create hashmap to track Contact objects
-        contactMap = new HashMap<>();
-    }
-
-    // Public method to provide access to the instance
-    public static ContactService getInstance() {
-        if (instance == null) {
-            System.out.println("Creating Instance of ContactService...");
-            instance = new ContactService();
-        }
-        return instance;
-    }
-
+    /**
+     * Generates and returns a unique identifier for a Contact instance.
+     * @return String
+     * */
     public String getUniqueContactId() {
         /*
          * There is a chance that the generateRandomId method will create
@@ -52,11 +64,15 @@ public class ContactService {
         return uniqueId;
     }
 
+    /**
+     * Generates a random string as a possible Contact ID.
+     * @return String
+     * */
     private String generateRandomId() {
         // get a random int between min and max for length of new id
         int length = MIN_ID_LEN + rand.nextInt(MAX_ID_LEN - MIN_ID_LEN + 1);
 
-        // now to start building an id String...
+        // start building an id String...
         StringBuilder sb = new StringBuilder();
 
         // iterate the length of the id, adding a random char to the string builder
@@ -71,43 +87,46 @@ public class ContactService {
         return sb.toString();
     }
 
-
+    /**
+     * Adds the given Contact to stored Contacts.
+     * */
     public void addContact(Contact contact) {
         // add incoming contact to hash map
         // key is contact's Id
         contactMap.put(contact.getId(), contact);
-
-        // TODO: remove debug messages...
-        System.out.println("-----------------Contact added to ContactService's map-----------------");
-        System.out.println("Contact Information");
-        System.out.println("Contact Id: " + contact.getId());
-        System.out.println("Contact First Name: " + contact.getFirstName());
-        System.out.println("Contact Last Name: " + contact.getLastName());
-        System.out.println("Contact Phone: " + contact.getPhone());
-        System.out.println("Contact Address: " + contact.getAddress());
-        System.out.println();
-        System.out.println("ContactService now contains " + contactMap.keySet().size() + " entries");
-        System.out.println("------------------------------------------------------------------------");
-
-
     }
 
+    // adding getContact method for testing purposes...
+    public Contact getContact(String contactId){
+        Contact result = contactMap.get(contactId);
+
+        if(result == null){
+            throw new NoSuchElementException("Contact object with id "+ contactId + " does not exist");
+        }
+
+        return result;
+    }
+
+    /**
+     * Searches for a stored Contact with a matching ID string. <br/>
+     * Removes from store if found. <br/>
+     * @param contactId a Contact's Id String
+     * @throws NoSuchElementException if no matching contactId exists in store.
+     * */
     public void deleteContact(String contactId) {
         // does the contact with contactId exist in map?
         if (!contactMap.containsKey(contactId)) {
-            throw new RuntimeException(
+            throw new NoSuchElementException(
                     "Cannot remove contact with id: " + contactId + " from ContactService as no such ID exists"
             );
         }
         contactMap.remove(contactId);
-
-        // TODO: remove debug messages...
-        System.out.println("Removed Contact with id: " + contactId + " from ContactService");
-        System.out.println("ContactService now contains " + contactMap.keySet().size() + " entries");
     }
 
 
-    // enum for update method
+    /**
+     * enum representing the fields for a Contact object.
+    */
     public enum ContactField {
         FIRST_NAME,
         LAST_NAME,
@@ -115,6 +134,12 @@ public class ContactService {
         ADDRESS
     }
 
+    /**
+     * Attempts to update an existing Contact's information within the store.
+     * @param contactId id string to search for.
+     * @param fieldToUpdate enum value specifying which field to update.
+     * @param value the update value.
+     */
     public void updateContact(String contactId, ContactField fieldToUpdate, String value) {
         Contact contact = contactMap.get(contactId);
 
@@ -138,7 +163,7 @@ public class ContactService {
                 contact.setAddress(value);
                 break;
             default:
-                throw new IllegalArgumentException("ContactField to update was not specified");
+                throw new IllegalArgumentException("ContactField to update was not recognized");
         }
     }
 
