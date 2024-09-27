@@ -14,7 +14,7 @@ public class ContactService {
     // Private constructor to prevent instantiation
     private ContactService() {
         // create hashmap to track Contact objects
-        contactMap = new HashMap<>(64);
+        contactMap = new HashMap<>();
     }
 
     /**

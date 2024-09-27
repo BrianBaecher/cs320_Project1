@@ -177,7 +177,7 @@ public class ContactServiceTest {
     public void cannotUpdateInvalidPhone() {
         var service = ContactService.getInstance();
 
-        // logging the initial name of the validContact
+        // storing the initial name of the validContact
         String initialPhone = service.getContact(validContact.getId()).getPhone();
 
         String invalidPhone = "123abc7890";
@@ -188,7 +188,7 @@ public class ContactServiceTest {
                     invalidPhone);
         });
 
-        // assert that the name was not changed.
+        // assert that the phone was not changed.
         Assertions.assertEquals(
                 service.getContact(validContact.getId()).getPhone(),
                 initialPhone
@@ -202,19 +202,19 @@ public class ContactServiceTest {
 
         String newValidAddress = "400 Broadway Ave";
 
-        // assert that the phone of the validContact matches the original before changing...
+        // assert that the address of the validContact matches the original before changing...
         Assertions.assertEquals(
                 service.getContact(validContact.getId()).getAddress(),
                 validContact.getAddress()
         );
 
-        // update the name
+        // update the address
         service.updateContact(validContact.getId(),
                 ContactService.ContactField.ADDRESS,
                 newValidAddress
         );
 
-        // assert that the name of the validContact now matches the new name
+        // assert that the address of the validContact now matches the new one
         Assertions.assertEquals(
                 service.getContact(validContact.getId()).getAddress(),
                 newValidAddress
@@ -252,7 +252,8 @@ public class ContactServiceTest {
      * for a contact's ID field. When a Contact is instantiated, and its constructor calls
      * ContactService's .getUniqueContactId(), the method checks for any matching ID strings within
      * the ContactService's "contactMap" map's keys, and will create a new one if the ID is already being used.
-     * So I don't see how I can test for duplicate keys as no Contact will be given a duplicate ID string.
+     * I'm unsure how to test for duplicate Ids as no Contact will be given a duplicate ID string,
+     * and the Id is not assigned via input to the constructor and has no setter.
      * As a workaround I'm going to write a test case that creates a large number of Contacts,
      * stores each Contact's ID into a set, and in the event that an item already exists within
      * that set, the test will fail.
@@ -285,7 +286,7 @@ public class ContactServiceTest {
             // add the contact's id to the set
             if (!idSet.add(c.getId())) {
                 // set.add() returns false if set already contains element.
-                // this isn't possible with how the program's written.
+                // this shouldn't be possible with how the service assigns IDs.
                 throw new RuntimeException("ID: " + c.getId() + " already exists in set.");
             }
         }

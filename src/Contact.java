@@ -44,7 +44,7 @@ public class Contact {
 
     /*
      * Each field (firstName, lastName, phone, address) is validated using
-     * their respective `tryRegister` and `validate` methods.
+     * their respective `tryRegister` and `validate` methods below.
      * - The `tryRegister` methods attempt to assign values.
      * - The `validate` methods perform checks.
      * - If validation fails, an IllegalArgumentException gets thrown, and field is not updated.
@@ -171,7 +171,7 @@ public class Contact {
         // however the only criteria given for a valid address in the rubric are that
         // it cannot be null, and it cannot be longer than 30 chars, so as far as I went
         // with additional checks is to make sure address is not an empty/whitespace-only string.
-        return address.trim();
+        return address;
     }
 
 
@@ -213,7 +213,7 @@ public class Contact {
         tryRegisterAddress(address);
     }
 
-    // debug print method.
+    // debug print method. Should be the only missing method from test coverage.
     public void printInfo() {
         System.out.println("-----------------Contact printInfo()-----------------");
         System.out.println("Contact Information");
