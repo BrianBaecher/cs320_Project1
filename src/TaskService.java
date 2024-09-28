@@ -9,13 +9,12 @@ public class TaskService {
 
     private final Random rand = new Random();
 
-
-    private TaskService(){
-            taskMap = new HashMap<>();
+    private TaskService() {
+        taskMap = new HashMap<>();
     }
 
-    public static TaskService getInstance(){
-        if (instance==null){
+    public static TaskService getInstance() {
+        if (instance == null) {
             instance = new TaskService();
         }
         return instance;
@@ -29,6 +28,7 @@ public class TaskService {
 
         return uniqueId;
     }
+
     private String generateRandomId() {
         final int MAX_ID_LEN = 10;
         final int MIN_ID_LEN = 2;
@@ -49,5 +49,49 @@ public class TaskService {
 
         // return the contents of the string builder with toString method...
         return sb.toString();
+    }
+
+    public void addTask(Task task) {
+        taskMap.put(task.getId(), task);
+    }
+
+    public Task getTask(String taskId) {
+        Task t = taskMap.get(taskId);
+
+        if (t == null) {
+            //todo: exception
+            return null;
+        }
+
+        return t;
+    }
+
+    public void deleteTask(String taskId) {
+        Task task = taskMap.get(taskId);
+
+        if (task == null) {
+            System.out.println("task with id " + taskId + " not found");
+        } else {
+            taskMap.remove(taskId);
+        }
+    }
+
+    public void updateTaskName(String taskId, String name) {
+        Task task = taskMap.get(taskId);
+        if (task == null) {
+            System.out.println("task with id " + taskId + " not found");
+        } else {
+            task.setName(name);
+        }
+    }
+
+    public void updateTaskDescription(String taskId, String description) {
+        Task task = taskMap.get(taskId);
+        if (task == null) {
+            System.out.println("task with id " + taskId + " not found");
+        } else {
+            task.setDescription(description);
+        }
+
     }
 }

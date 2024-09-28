@@ -8,7 +8,11 @@ public class Task {
     public Task(String name, String description) {
         Id = TaskService.getInstance().getUniqueTaskId();
         boolean validName = tryRegisterName(name);
-        Description = description;
+        boolean validDescription = tryRegisterDescription(description);
+
+        if(validName && validDescription){
+            TaskService.getInstance().addTask(this);
+        }
     }
 
     public String getId() {
@@ -27,12 +31,12 @@ public class Task {
 
     public void setName(String name) {
         //TODO: validate
-        Name = name;
+        tryRegisterName(name);
     }
 
     public void setDescription(String description) {
         //Todo: validate
-        Description = description;
+        tryRegisterDescription(description);
     }
 
     private boolean tryRegisterName(String name){
@@ -66,11 +70,11 @@ public class Task {
     }
 
 
-    private boolean tryRegisterDescription(String name){
+    private boolean tryRegisterDescription(String description){
         boolean success = false;
 
         try {
-            Name = validateName(name);
+            Description = validateDescription(description);
             success = true;
         } catch (IllegalArgumentException illegalArg) {
             throw new IllegalArgumentException(illegalArg.getMessage());
