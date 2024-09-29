@@ -1,3 +1,10 @@
+/*
+Author: Brian Baecher
+Date: 9/27/2024
+Course ID: CS-320-13376-M01
+Description: TaskService class Junit testing file.
+*/
+
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -7,6 +14,8 @@ import java.util.List;
 public class TaskServiceTest {
     @Test
     public void addSingleTask(){
+        //adding a single task
+        //adding and getting a task back from the service
         var service = TaskService.getInstance();
 
         // tasks are added from within constructors if all fields valid
@@ -38,8 +47,6 @@ public class TaskServiceTest {
         }
     }
 
-    // it is not possible to have duplicate IDs due to hashmap...
-
     @Test
     public void updateTaskName(){
         var service = TaskService.getInstance();
@@ -50,6 +57,7 @@ public class TaskServiceTest {
 
         service.updateTaskName(t.getId(), validName);
 
+        // confirm the Task now has "New Name" as its name value.
         Assertions.assertEquals(t.getName(), validName);
     }
 
@@ -63,6 +71,7 @@ public class TaskServiceTest {
 
         service.updateTaskDescription(t.getId(), validDescription);
 
+        // confirm the Task now has "New valid description" as its description value.
         Assertions.assertEquals(t.getDescription(), validDescription);
     }
 
