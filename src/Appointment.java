@@ -1,4 +1,10 @@
-import java.util.Date;
+/*
+Author: Brian Baecher
+Date: 10/4/2024
+Course ID: CS-320-13376-M01
+Description: The Appointment class.
+*/
+
 import java.time.LocalDate;
 
 public class Appointment {
@@ -36,7 +42,7 @@ public class Appointment {
 
         Id = service.getUniqueAppointmentId();
 
-        this.Date = date;
+        Date = date;
 
         Description = description;
 
@@ -44,7 +50,7 @@ public class Appointment {
         service.addAppointment(this);
     }
 
-    // getter
+    // getters
     public String getId(){
         return Id;
     }

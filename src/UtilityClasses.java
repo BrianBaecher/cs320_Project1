@@ -1,3 +1,12 @@
+/*
+Author: Brian Baecher
+Date: 10/4/2024
+Course ID: CS-320-13376-M01
+Description: UtilityClasses holds static subclasses that provide common functionalities. At the moment it only
+provides a way to get a randomized ID string.
+*/
+
+
 import java.util.Random;
 
 public class UtilityClasses {
