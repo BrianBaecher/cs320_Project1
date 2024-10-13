@@ -1,7 +1,13 @@
+/*
+Author: Brian Baecher
+Date: 10/4/2024
+Course ID: CS-320-13376-M01
+Description: The ContactService class.
+*/
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Random;
 
 /**
  * The ContactService class is a singleton that stores Contact objects.
@@ -32,59 +38,18 @@ public class ContactService {
     // Map interface is implemented by a HashMap.
     private final Map<String, Contact> contactMap;
 
-    // constant defining max Contact.Id string length
-    private final int MAX_ID_LEN = 10;
-
-    // not specified in rubric, but I figure the minimum length of an Id should be > 1 at least
-    private final int MIN_ID_LEN = 2;
-
-    // Random to help in creating new Ids
-    private final Random rand = new Random();
-
-    // string containing the characters I'm allowing to be present within an Id.
-    private final String ALLOWED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     /**
      * Generates and returns a unique identifier for a Contact instance.
      * @return String
      * */
     public String getUniqueContactId() {
-        /*
-         * There is a chance that the generateRandomId method will create
-         * an ID string that is already present in the map
-         * (which should mean that a Contact already has that ID)
-         * so a do-while loop is used until a value NOT in the map is found.
-         * */
-
         String uniqueId;
         do {
-            uniqueId = generateRandomId();
+            uniqueId = UtilityClasses.IdGenerator.generateRandomId();
         } while (contactMap.containsKey(uniqueId));
 
         return uniqueId;
-    }
-
-    /**
-     * Generates a random string as a possible Contact ID.
-     * @return String
-     * */
-    private String generateRandomId() {
-        // get a random int between min and max for length of new id
-        int length = MIN_ID_LEN + rand.nextInt(MAX_ID_LEN - MIN_ID_LEN + 1);
-
-        // start building an id String...
-        StringBuilder sb = new StringBuilder();
-
-        // iterate the length of the id, adding a random char to the string builder
-        for (int i = 0; i < length; i++) {
-            // get a random char from the allowed
-            char c = ALLOWED_CHARS.charAt(rand.nextInt(ALLOWED_CHARS.length()));
-
-            sb.append(c);
-        }
-
-        // return the contents of the string builder with toString method...
-        return sb.toString();
     }
 
     /**
@@ -96,7 +61,6 @@ public class ContactService {
         contactMap.put(contact.getId(), contact);
     }
 
-    // adding getContact method for testing purposes...
     public Contact getContact(String contactId){
         Contact result = contactMap.get(contactId);
 

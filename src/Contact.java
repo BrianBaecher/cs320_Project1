@@ -1,3 +1,10 @@
+/*
+Author: Brian Baecher
+Date: 10/4/2024
+Course ID: CS-320-13376-M01
+Description: The Contact class.
+*/
+
 /**
  * The Contact class represents an individual contact with the personal details specified in the rubric.
  *
@@ -211,18 +218,6 @@ public class Contact {
 
     public void setAddress(String address) {
         tryRegisterAddress(address);
-    }
-
-    // debug print method. Should be the only missing method from test coverage.
-    public void printInfo() {
-        System.out.println("-----------------Contact printInfo()-----------------");
-        System.out.println("Contact Information");
-        System.out.println("Contact Id: " + this.getId());
-        System.out.println("Contact First Name: " + this.getFirstName());
-        System.out.println("Contact Last Name: " + this.getLastName());
-        System.out.println("Contact Phone: " + this.getPhone());
-        System.out.println("Contact Address: " + this.getAddress());
-        System.out.println("------------------------------------------------------------------------");
     }
 
 }
