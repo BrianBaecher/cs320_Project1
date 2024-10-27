@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class AppointmentTest {
     @Test
@@ -59,5 +60,21 @@ public class AppointmentTest {
         Assertions.assertThrows(IllegalArgumentException.class, ()-> {
             new Appointment(LocalDate.of(2025, 1, 1), badDesc);
         });
+    }
+
+    @Test
+    public void validAppointment(){
+        Appointment a = new Appointment(LocalDate.of(2025, 1, 1), "A description.");
+
+        Assertions.assertFalse(a.getDate().isBefore(LocalDate.now()));
+
+        var service = AppointmentService.getInstance();
+
+        // date is in the future
+        Assertions.assertFalse(service.getAppointment(a.getId()).getDate().isBefore(LocalDate.now()));
+
+        // description exists / was successful
+        Assertions.assertEquals(service.getAppointment(a.getId()).getDescription(), a.getDescription());
+
     }
 }

@@ -1,3 +1,10 @@
+/*
+Author: Brian Baecher
+Date: 10/4/2024
+Course ID: CS-320-13376-M01
+Description: Junit tests for the Contact class.
+*/
+
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
